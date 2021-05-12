@@ -10,38 +10,88 @@ export default class App extends React.Component {
         this.state = {
             items: [],
             isLoaded: false,
+            value: 'Select a Player'
         }
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    //https://parsehub.com/api/v2/runs/tvS1igFk0ZF4/data?api_key=tdSwsNjNMLhc
+    handleChange(event) {
+      // this.setState({value: event.target.value});
+
+      let filteredPlayers = [];
+      for (let i = 0; i < this.state.len; i++) {
+        const playerLoop = this.state.allPlayers[i];
+        filteredPlayers.push(playerLoop);
+      }
+      
+      const playerFilter = filteredPlayers.filter(player => player.name.includes(event.target.value));
+      this.setState({ value: event.target.value, person: playerFilter, len: playerFilter.length });
+    }
 
     async componentDidMount() {
         const url = "https://parsehub.com/api/v2/runs/t0sL3T3-YriC/data?api_key=tdSwsNjNMLhc";
         const response = await fetch(url);
         const data = await response.json();
-        this.setState({ person: data, loading: false, len: data.selection1.length });
+        this.setState({
+            playerDropdown: data,
+            allPlayers: data.selection1,
+            allPlayersLength: data.selection1.length,
+            person: data.selection1,
+            loading: false,
+            len: data.selection1.length
+        });
     }
 
     render() {
       let items = [];
       for (let i = 0; i < this.state.len; i++) {
-        const item = this.state.person.selection1[i];
+        const item = this.state.person[i];
         items.push(item);
+
+        if(i === 5)
+        {
+          break;
+        }
       }
+
       
       let name = items.map((item) => (
         <>
           <Card id={item.rank} key={item.rank} className="card" draggable="true">
-              <li key={item.rank}>
-                {item.name}
-              </li>
+            {item.name}
           </Card>
+        </>
+      ))
+
+      let playerDropdown = [];
+      for (let i = 0; i < this.state.allPlayersLength; i++) {
+        const allPlayer = this.state.playerDropdown.selection1[i];
+        playerDropdown.push(allPlayer);
+
+        if(i === 5)
+        {
+          break;
+        }
+      }
+
+      let options = playerDropdown.map((allPlayer) => (
+        <>
+          <option id={allPlayer.rank}>
+            {allPlayer.name}
+          </option>
         </>
       ))
 
       return (
 
         <div className="app">
+          
+          <select value={this.state.value} onChange={this.handleChange} className="dropdown">
+            <option>Select a Player</option>
+              {options}
+          </select>
+      
           <main className="flexbox">
             <Board id="board-1" className="board">
                 {name}
@@ -50,49 +100,6 @@ export default class App extends React.Component {
             <Board id="board-2" className="board"></Board>
           </main>
         </div>
-
-
-        /*
-        <div>
-          {this.state.loading || !this.state.person ? (
-            <div>loading...</div>
-          ) : (
-            <div className="float half">
-              {
-                items.map((item) => (
-                  <>
-                    <span>{item}</span>
-                    <hr />
-                  </>
-                ))
-              }
-            </div>
-          )}
-
-
-        {this.state.loading || !this.state.person ? (
-            <div>loading...</div>
-          ) : (
-            <div className="float half">
-              {
-                items.map((item) => (
-                  <>
-                  <table>
-                    <tbody>
-                    <tr>
-                      <td>
-                        
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                  </>
-                ))
-              }
-            </div>
-          )}
-        </div>
-        */
       );
     }
   }

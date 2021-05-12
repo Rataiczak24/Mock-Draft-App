@@ -9,6 +9,11 @@ body {
   background-size: cover;
 }
 
+.dropdown {
+  padding: 10px;
+  font-size: large;
+}
+
 .flexbox {
   display: flex;
   justify-content: space-between;
