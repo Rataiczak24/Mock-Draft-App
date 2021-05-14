@@ -55,13 +55,13 @@ export default class App extends React.Component {
         }
       }
 
-      
+ 
       let name = items.map((item) => (
-        <>
-          <Card id={item.rank} key={item.rank} className="card" draggable="true">
+        <React.Fragment key={item.rank}>
+          <Card id={item.rank} className="card" draggable="true">          
             {item.name}
           </Card>
-        </>
+        </React.Fragment>
       ))
 
       let playerDropdown = [];
@@ -76,25 +76,25 @@ export default class App extends React.Component {
       }
 
       let options = playerDropdown.map((allPlayer) => (
-        <>
+        <React.Fragment key={allPlayer.rank}>
           <option id={allPlayer.rank}>
             {allPlayer.name}
           </option>
-        </>
+        </React.Fragment>
       ))
 
       return (
 
         <div className="app">
-          
+ 
           <select value={this.state.value} onChange={this.handleChange} className="dropdown">
             <option>Select a Player</option>
               {options}
           </select>
-      
+
           <main className="flexbox">
             <Board id="board-1" className="board">
-                {name}
+              {name}
             </Board>
 
             <Board id="board-2" className="board"></Board>

@@ -47,17 +47,3 @@ body {
   cursor: pointer;
   margin-bottom: 15px;
 }
-
-/*
-.float {
-  background: lightgreen;
-  border: solid green 1px;
-  float: left;
-  margin-left: 50px;
-  text-align: center;
-}
-    
-.half {
-  width: 40%;
-}
-*/
