@@ -77,7 +77,7 @@ export default class App extends React.Component {
 
       let options = playerDropdown.map((allPlayer) => (
         <React.Fragment key={allPlayer.rank}>
-          <option id={allPlayer.rank}>
+          <option>
             {allPlayer.name}
           </option>
         </React.Fragment>
