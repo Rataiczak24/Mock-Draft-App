@@ -14,13 +14,13 @@ export default class App extends React.Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.ResetPlayers = this.ResetPlayers.bind(this);
     }
 
     handleChange(event) {
-      // this.setState({value: event.target.value});
-
       let filteredPlayers = [];
-      for (let i = 0; i < this.state.len; i++) {
+      
+      for (let i = 0; i < this.baseLength; i++) {
         const playerLoop = this.state.allPlayers[i];
         filteredPlayers.push(playerLoop);
       }
@@ -41,6 +41,12 @@ export default class App extends React.Component {
             loading: false,
             len: data.selection1.length
         });
+        this.baseState = data.selection1;
+        this.baseLength = data.selection1.length;
+    }
+
+    ResetPlayers(event) {
+      this.setState({ person: this.baseState, len: this.baseLength, value: 'Select a Player' });
     }
 
     render() {
@@ -55,7 +61,7 @@ export default class App extends React.Component {
         }
       }
 
- 
+      // list of names on each board
       let name = items.map((item) => (
         <React.Fragment key={item.rank}>
           <Card id={item.rank} className="card" draggable="true">          
@@ -64,6 +70,7 @@ export default class App extends React.Component {
         </React.Fragment>
       ))
 
+      // list of names to be used in dropdown
       let playerDropdown = [];
       for (let i = 0; i < this.state.allPlayersLength; i++) {
         const allPlayer = this.state.playerDropdown.selection1[i];
@@ -75,6 +82,7 @@ export default class App extends React.Component {
         }
       }
 
+      // list of names in dropdown
       let options = playerDropdown.map((allPlayer) => (
         <React.Fragment key={allPlayer.rank}>
           <option>
@@ -91,6 +99,10 @@ export default class App extends React.Component {
             <option>Select a Player</option>
               {options}
           </select>
+
+          <button onClick={this.ResetPlayers}>
+            Reset
+          </button>
 
           <main className="flexbox">
             <Board id="board-1" className="board">

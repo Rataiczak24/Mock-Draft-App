@@ -9,7 +9,7 @@ body {
   background-size: cover;
 }
 
-.dropdown {
+.dropdown, button {
   padding: 10px;
   font-size: large;
 }
